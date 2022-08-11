@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
+import Login from '../components/Login'
 import styles from '../styles/Home.module.scss'
 
 export default function Home() {
@@ -22,8 +23,8 @@ export default function Home() {
                 <link rel='icon' href='/favicon.ico' />
             </Head>
             <main>
-                <p>Hello World!</p>
                 <p className={styles.hello}>Message is: {message} </p>
+                <Login />
             </main>
         </div>
     )
