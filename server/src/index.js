@@ -30,22 +30,41 @@ app.use(
 
 app.use(helmet())
 
-io.use((socket, next) => {
-    const username = socket.handshake.auth.username
-    if (!username) {
-        return next(new Error('invalid username'))
-    }
-    socket.username = username
-    next()
-})
+// io.use((socket, next) => {
+//     const username = socket.handshake.auth.username
+//     if (!username) {
+//         return next(new Error('invalid username'))
+//     }
+//     socket.username = username
+//     next()
+// })
+
+let count = 0
 
 io.on('connection', (socket) => {
     console.info('A user connected')
+
     socket.on('disconnect', () => {
         console.log('user disconnected')
     })
     socket.emit('message', 'Hello!')
+    io.emit('count:update', { count })
+
+    socket.on('count:plus', () => {
+        count++
+        io.emit('count:update', { count })
+    })
+    socket.on('count:minus', () => {
+        count--
+        io.emit('count:update', { count })
+    })
+    socket.on('count:reset', () => {
+        count = 0
+        io.emit('count:update', { count })
+    })
 })
+
+
 
 // -- routes
 app.get('/', (req, res) => {

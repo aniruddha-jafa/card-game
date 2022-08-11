@@ -1,7 +1,48 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Login from '../components/Login'
+import socket from '../utils/socket'
+
 import styles from '../styles/Home.module.scss'
+
+const Counter = () => {
+    const [count, setCount] = useState(null)
+
+    useEffect(() => {
+        socket.connect()
+        socket.on('connect_error', (err) => {
+            console.error('Connection error: ', err)
+        })
+        socket.on('count:update', (data) => {
+            setCount(data.count)
+        })
+        return () => {
+            socket.off('connect_error')
+            socket.off('count:update')
+        }
+    }, [])
+
+    const onPlus = (e) => {
+        // setCount(count + 1)
+        socket.emit('count:plus')
+    }
+    const onMinus = (e) => {
+        // setCount(count - 1)
+        socket.emit('count:minus')
+    }
+    const onReset = (e) => {
+        // setCount(0)
+        socket.emit('count:reset')
+    }
+    return (
+        <>
+            <button onClick={onPlus}>+</button>
+            <button onClick={onMinus}>-</button>
+            <button onClick={onReset}>Reset</button>
+            <p>Count is: {count}</p>
+        </>
+    )
+}
 
 export default function Home() {
     const [message, setMessage] = useState('unset')
@@ -26,6 +67,7 @@ export default function Home() {
                 <p className={styles.hello}>Message is: {message} </p>
                 <Login />
             </main>
+            <Counter />
         </div>
     )
 }
