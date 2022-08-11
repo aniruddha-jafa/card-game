@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const helmet = require('helmet')
 
 app = express()
 
@@ -12,6 +13,8 @@ app.use(
         origin: 'http://localhost:3000',
     })
 )
+
+app.use(helmet())
 
 // -- routes
 app.get('/', (req, res) => {
