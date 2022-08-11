@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
+import styles from '../styles/Home.module.scss'
 
 export default function Home() {
     const [message, setMessage] = useState('unset')
@@ -22,7 +23,7 @@ export default function Home() {
             </Head>
             <main>
                 <p>Hello World!</p>
-                <p>Message is: {message} </p>
+                <p className={styles.hello}>Message is: {message} </p>
             </main>
         </div>
     )
