@@ -6,7 +6,8 @@ export default function Home() {
 
     useEffect(() => {
         fetch('http://localhost:4060')
-            .then(setMessage)
+            .then((res) => res.json())
+            .then(({ message }) => setMessage(message))
             .catch((err) => console.error(err))
     }, [])
     return (
