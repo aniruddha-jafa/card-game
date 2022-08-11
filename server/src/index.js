@@ -3,10 +3,11 @@ const cors = require('cors')
 const helmet = require('helmet')
 const { Server } = require('socket.io')
 
+require('dotenv').config()
 // ---------------------------------------------
 
-const PORT = 4060
-const CLIENT_ORIGIN_URL = 'http://localhost:3000'
+const PORT = process.env.PORT
+const CLIENT_ORIGIN_URL = process.env.CLIENT_ORIGIN_URL
 
 app = express()
 
